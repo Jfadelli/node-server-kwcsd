@@ -19,7 +19,6 @@ app.use(cors({
     origin: "*"
 }))
 
-app.use(cors(corsOptions))
 router.post('/send', function (req, res) {
     req.headers['']
     let transporter = nodeMailer.createTransport({
