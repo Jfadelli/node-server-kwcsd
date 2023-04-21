@@ -15,9 +15,7 @@ let app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use('/api/', router)
-app.use(cors({
-    origin: "*"
-}))
+app.use(cors())
 
 router.post('/send', function (req, res) {
     req.headers['']
