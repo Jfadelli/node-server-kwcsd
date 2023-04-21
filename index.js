@@ -1,4 +1,6 @@
 process.env.NODE_ENV === "production" ? null: require('dotenv').config();
+const cors = require('cors');
+
 let express = require("express"),
     path = require('path'),
     nodeMailer = require('nodemailer'),
@@ -13,6 +15,9 @@ let app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use('/api/', router)
+app.use(cors({
+    origin: "*"
+}))
 router.post('/send', function (req, res) {
     let transporter = nodeMailer.createTransport({
         host: 'smtp.gmail.com',
@@ -45,40 +50,6 @@ router.post('/send', function (req, res) {
         subject: 'New Message from KWCSanDiego.com contact form',
         text: content
     };
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            return console.log(error);
-        }
-        console.log('Message %s sent: %s', info.messageId, info.response);
-    });
-    res.writeHead(301, { Location: 'index.html' });
-    res.end();
-});
-
-router.post('/send/jasonfadelli', function (req, res) {
-    let transporter = nodeMailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 465,
-        secure: true,
-        auth: {
-            // should be replaced with real sender's account
-            user: process.env.KWCSD_ALERT_USER,
-            pass: process.env.KWCSD_ALERT_PASS
-        }
-    });
-
-    var name = req.body.name
-    var phone = req.body.phone
-    var email = req.body.email
-    var message = req.body.message
-    var content = `name: ${name} \nphone: ${phone} \nemail: ${email} \nmessage: ${message}`
-    var mailOptions = {
-        from: email,
-        to: process.env.JASON_EMAIL,  // Change to email address that you want to receive messages on
-        subject: 'New Message from jasonfadelli.com',
-        text: content
-    }
-
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
             return console.log(error);
@@ -130,6 +101,40 @@ router.post('/newProperty', function (req, res) {
         subject: 'New Property Evaluation Form Submitted',
         text: content
     }
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            return console.log(error);
+        }
+        console.log('Message %s sent: %s', info.messageId, info.response);
+    });
+    res.writeHead(301, { Location: 'index.html' });
+    res.end();
+});
+
+router.post('/send/jasonfadelli', function (req, res) {
+    let transporter = nodeMailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,
+        auth: {
+            // should be replaced with real sender's account
+            user: process.env.KWCSD_ALERT_USER,
+            pass: process.env.KWCSD_ALERT_PASS
+        }
+    });
+
+    var name = req.body.name
+    var phone = req.body.phone
+    var email = req.body.email
+    var message = req.body.message
+    var content = `name: ${name} \nphone: ${phone} \nemail: ${email} \nmessage: ${message}`
+    var mailOptions = {
+        from: email,
+        to: process.env.JASON_EMAIL,  // Change to email address that you want to receive messages on
+        subject: 'New Message from jasonfadelli.com',
+        text: content
+    }
+
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
             return console.log(error);
