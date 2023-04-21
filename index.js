@@ -50,10 +50,11 @@ router.post('/send', function (req, res) {
         subject: 'New Message from KWCSanDiego.com contact form',
         text: content
     };
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
     transporter.sendMail(mailOptions, (error, info) => {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
         if (error) {
             return console.log(error);
         }
