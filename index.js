@@ -1,4 +1,4 @@
-process.env.NODE_ENV === "production" ? null: require('dotenv').config();
+process.env.NODE_ENV === "production" ? null : require('dotenv').config();
 const cors = require('cors');
 
 let express = require("express"),
@@ -18,25 +18,7 @@ app.use('/api/', router)
 app.use(cors({
     origin: "*"
 }))
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", '*');
-    res.header("Access-Control-Allow-Credentials", true);
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-    res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-    next();
-});
 
-const whitelist = ["https://kwcsandiego.com/"]
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin || whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error("Not allowed by CORS"))
-    }
-  },
-  credentials: true,
-}
 app.use(cors(corsOptions))
 router.post('/send', function (req, res) {
     req.headers['']
@@ -71,6 +53,9 @@ router.post('/send', function (req, res) {
         subject: 'New Message from KWCSanDiego.com contact form',
         text: content
     };
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
             return console.log(error);
@@ -89,7 +74,7 @@ router.post('/newProperty', function (req, res) {
         auth: {
             // should be replaced with real sender's account
             user: process.env.KWCSD_ALERT_USER,
-            pass: process.env.KWCSD_ALERT_PASS 
+            pass: process.env.KWCSD_ALERT_PASS
         }
     });
 
@@ -122,6 +107,9 @@ router.post('/newProperty', function (req, res) {
         subject: 'New Property Evaluation Form Submitted',
         text: content
     }
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
             return console.log(error);
@@ -129,6 +117,7 @@ router.post('/newProperty', function (req, res) {
         console.log('Message %s sent: %s', info.messageId, info.response);
     });
     res.writeHead(301, { Location: 'index.html' });
+
     res.end();
 });
 
@@ -155,7 +144,9 @@ router.post('/send/jasonfadelli', function (req, res) {
         subject: 'New Message from jasonfadelli.com',
         text: content
     }
-
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
             return console.log(error);
