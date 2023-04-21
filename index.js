@@ -27,6 +27,11 @@ router.post('/send', function (req, res) {
             // should be replaced with real sender's account
             user: process.env.KWCSD_ALERT_USER,
             pass: process.env.KWCSD_ALERT_PASS
+        },
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
+            'Access-Control-Allow-Headers': 'Content-Type',
         }
     });
     var name = req.body.name
@@ -48,13 +53,10 @@ router.post('/send', function (req, res) {
         // should be replaced with real recipient's account
         to: agent,
         subject: 'New Message from KWCSanDiego.com contact form',
-        text: content
+        text: content,
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-        res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
         if (error) {
             return console.log(error);
         }
@@ -73,6 +75,11 @@ router.post('/newProperty', function (req, res) {
             // should be replaced with real sender's account
             user: process.env.KWCSD_ALERT_USER,
             pass: process.env.KWCSD_ALERT_PASS
+        },
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
+            'Access-Control-Allow-Headers': 'Content-Type',
         }
     });
 
@@ -128,6 +135,11 @@ router.post('/send/jasonfadelli', function (req, res) {
             // should be replaced with real sender's account
             user: process.env.KWCSD_ALERT_USER,
             pass: process.env.KWCSD_ALERT_PASS
+        },
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
+            'Access-Control-Allow-Headers': 'Content-Type',
         }
     });
 
